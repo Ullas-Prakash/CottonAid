@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Prediction Result</title>
+  <style>
+    body { text-align:center; font-family:Arial; background:#eef; margin-top:50px; }
+    h1 { color:#2e7d32; }
+    img { width:300px; border-radius:8px; margin-top:20px; }
+  </style>
+</head>
+<body>
+  <h1>Prediction Result</h1>
+  <p><b>Disease Detected:</b> {{ label }}</p>
+  <p><b>Confidence:</b> {{ confidence }}%</p>
+  <img src="{{ url_for('send_uploaded_file', filename=image_file) }}" alt="Leaf Image">
+  <br><br>
+  <a href="/">Predict Another</a>
+</body>
+</html>

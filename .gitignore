@@ -18,3 +18,53 @@ __pycache__/
 # Environment or OS-specific files
 .DS_Store
 Thumbs.db
+
+
+
+# ===== Python & Environment =====
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+
+# ===== Virtual Environment =====
+venv/
+env/
+
+# ===== Machine Learning Artifacts =====
+dataset/
+uploads/
+*.h5
+*.hdf5
+*.keras
+*.ckpt
+*.npz
+
+# ===== Large Files =====
+cotton-crop-disease-detection.zip
+
+# ===== Local Config / Editor =====
+.vscode/
+.kiro/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ===== Temporary / Logs =====
+*.log
+*.tmp
+*.bak
+
+# ===== Optional Test / Helper Scripts =====
+check.py
+data_test.py
+enhanced_prediction.py
+setup_kaggle_api.md
+
+# ===== Docker / Build =====
+__pycache__/
+*.egg-info/
+build/
+dist/

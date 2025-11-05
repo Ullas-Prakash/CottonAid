@@ -9,7 +9,10 @@ body {
     color: black;
     font-family: serif;
     font-size: large;
-    backdrop-filter: blur(6px); 
+    backdrop-filter: blur(6px);
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 h1{
@@ -44,14 +47,14 @@ h1{
 }
 .warpperbottom {
     width: 100%;
-    height: 60vh;
+    min-height: 60vh;
     box-shadow: 0 0 3rem 0 rgba(0, 0, 0, .2);   
     border-radius: 5px;
     position: relative;
     z-index: 1;
     background: inherit;
-    overflow: hidden;
-    
+    overflow: visible;
+    padding: 20px;
   }
   
 .warpperbottom:before {
@@ -65,7 +68,6 @@ h1{
     bottom: 0;
     box-shadow: inset 0 0 3000px rgba(255, 255, 255, .5);
     filter: blur(10px);
-    
 }
 /*---------------------------------------------------------------*/
 .btn-file {
@@ -89,21 +91,187 @@ h1{
     margin: 20px;
 }
 #img-upload{
-    padding: 20px 0px 20px 20px;
-    width: 25%;
-    margin: 20px;
-    float: left;
+    display: none; /* Initially hidden until image is uploaded */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
-#PredBtn{
-    margin: 20px;
+
+#img-upload.show {
+    display: block;
 }
+
+.image-container {
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
 .predclass{
     padding: 20px;
-    padding-top: 40px;
-    float: right;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+}
+
+/* Scrollbar styling */
+.predclass::-webkit-scrollbar {
+    width: 8px;
+}
+
+.predclass::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.predclass::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.predclass::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .image-container {
+        position: relative !important;
+        top: auto !important;
+        margin-bottom: 20px;
+    }
+    
+    .predclass {
+        max-height: none;
+    }
 }
 .input-group-btn{
     margin-top: 20px ;
 }
 
 
+
+/* Additional layout improvements */
+.container-fluid {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Card styling improvements */
+.card {
+    border: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.card-header {
+    border-bottom: 2px solid rgba(255,255,255,0.2);
+    font-weight: bold;
+}
+
+/* Loading spinner improvements */
+#loading {
+    padding: 40px;
+    background: rgba(255,255,255,0.9);
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+/* Error display improvements */
+#error-display {
+    margin: 20px 0;
+    border-radius: 10px;
+}
+
+/* Badge styling */
+.badge {
+    font-size: 0.9em;
+    padding: 6px 12px;
+}
+
+/* Tab styling */
+.nav-tabs .nav-link {
+    border-radius: 8px 8px 0 0;
+    margin-right: 5px;
+}
+
+.nav-tabs .nav-link.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+/* Treatment content styling */
+.tab-content {
+    background: #f8f9fa;
+    border-radius: 0 8px 8px 8px;
+    padding: 20px;
+    min-height: 200px;
+}
+
+/* Ensure proper spacing */
+.row {
+    margin-left: -10px;
+    margin-right: -10px;
+}
+
+.row > [class*="col-"] {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+/* Sticky positioning for larger screens */
+@media (min-width: 992px) {
+    .sticky-top {
+        position: sticky;
+        top: 20px;
+        z-index: 1020;
+    }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 991px) {
+    .image-container {
+        margin-bottom: 30px;
+        text-align: center;
+    }
+    
+    #img-upload {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    .predclass {
+        margin-top: 20px;
+    }
+}
+
+/* Very small screens */
+@media (max-width: 576px) {
+    .warpper {
+        height: auto;
+        min-height: 25vh;
+        padding: 15px;
+    }
+    
+    h1 {
+        font-size: 2.2em;
+        padding: 15px;
+    }
+    
+    .form-group {
+        padding: 0 15px;
+    }
+    
+    .card-body {
+        padding: 15px;
+    }
+    
+    .nav-tabs .nav-link {
+        font-size: 0.9em;
+        padding: 8px 12px;
+    }
+}

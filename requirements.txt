@@ -1,6 +1,11 @@
 flask
-keras==2.4.3
-tensorflow==2.4.1
+tensorflow>=2.12.0
 numpy
 matplotlib
 Werkzeug
+kagglehub
+pandas
+scikit-learn
+Pillow
+opencv-python
+requests
