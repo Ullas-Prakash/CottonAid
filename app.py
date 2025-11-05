@@ -1,71 +1,66 @@
-from flask import Flask, render_template, request
+# app.py
+from flask import Flask, render_template, request, send_from_directory
+from tensorflow.keras.models import load_model
+from disease_classifier.dataset_handler import DatasetHandler
 import numpy as np
 import os
-import tensorflow as tf
-import matplotlib.pyplot as plt
-from keras.preprocessing.image import load_img
-import keras.preprocessing.image as image
-from tensorflow.keras.models import load_model
-from tensorflow.keras.applications.densenet import preprocess_input
+import glob
 
-from werkzeug.utils import secure_filename
-
-
-
-#load model
-model =load_model("model/DenseNet121.h5")
-
-print('************Model loaded*************')
-
-
-def predict_disease(image_path,model):
-  
-    test_image = image.load_img(image_path,target_size = (256,256))
-    plt.imshow(plt.imread(image_path))
-    test_image = image.img_to_array(test_image)
-    test_image = test_image/255
-    test_image = np.expand_dims(test_image, axis = 0)
-    result = model.predict(test_image)
-    result = result.ravel() 
-    classes = ["Fusarium Wilt","Leaf Curl Disease","Healthy Leaf","Healthy Plant"]
-    max = result[0];    
-    index = 0; 
-    #Loop through the array    
-    for i in range(0, len(result)):    
-      #Compare elements of array with max    
-      if(result[i] > max):    
-          max = result[i];    
-          index = i
-    #print("Largest element present in given array: " + str(max) +" And it belongs to " +str(classes[index]) +" class."); 
-    pred = str(classes[index])
-    return pred
-
-# Create flask instance
+# Initialize app
 app = Flask(__name__)
 
-@app.route('/', methods=['GET'])
-def index():
-    # Main page
+# Paths
+MODEL_PATH = "model/enhanced_model.h5"   # change if you prefer a specific one
+UPLOAD_FOLDER = "uploads"
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+# Load model + dataset handler
+model = load_model(MODEL_PATH)
+handler = DatasetHandler()
+
+# Home page
+@app.route('/')
+def home():
     return render_template('index.html')
 
+# Prediction route
+@app.route('/predict', methods=['POST'])
+def predict():
+    if 'file' not in request.files:
+        return render_template('index.html', message="No file uploaded")
 
-@app.route('/predict', methods=['GET', 'POST'])
-def upload():
-    if request.method == 'POST':
-        # Get the file from post request
-        f = request.files['file']
-        # Save the file to ./uploads
-        basepath = os.path.dirname(__file__)
-        file_path = os.path.join(
-            basepath, 'uploads', secure_filename(f.filename))
-        f.save(file_path)
+    image_file = request.files['file']
+    if image_file.filename == '':
+        return render_template('index.html', message="Please select an image")
 
-        # Make prediction
-        preds = predict_disease(file_path, model)
-        result = preds
-        return result
-    return None
+    # Clear old uploads
+    for old_file in glob.glob(os.path.join(UPLOAD_FOLDER, '*')):
+        os.remove(old_file)
 
+    # Save new file
+    image_path = os.path.join(UPLOAD_FOLDER, image_file.filename)
+    image_file.save(image_path)
 
-if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=80)
+    # Preprocess and predict
+    img = handler.preprocess_image(image_path)
+    preds = model.predict(img)
+    predicted_index = np.argmax(preds)
+    confidence = round(float(np.max(preds)) * 100, 2)
+
+    # Get readable label
+    _, index_to_class = handler.get_class_mapping()
+    predicted_label = index_to_class[predicted_index].replace('_', ' ')
+
+    return render_template('result.html',
+                           label=predicted_label,
+                           confidence=confidence,
+                           image_file=image_file.filename)
+
+# Route to show uploaded image
+@app.route('/uploads/<filename>')
+def send_uploaded_file(filename):
+    return send_from_directory(UPLOAD_FOLDER, filename)
+
+# Run app
+if __name__ == "__main__":
+    app.run(debug=True)
