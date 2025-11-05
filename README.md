@@ -65,3 +65,5 @@ docker stop cotton-app
 
 ## Credits
 Thanks to my teammates [Myat Myint Zu Thin](https://github.com/myatmyintzuthin) and [Prachi Gupta](https://github.com/Prachigupta0305)
+# CottonAid
+cotton plant disease predictor
