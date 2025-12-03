@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
-import { Upload, X, Image as ImageIcon, AlertCircle } from 'lucide-react';
+import { Upload, X, Image as ImageIcon, AlertCircle, Camera } from 'lucide-react';
+import CameraCapture from './CameraCapture';
 
 /**
  * Image upload component with drag & drop support
@@ -11,6 +12,7 @@ const UploadCard = ({ onUpload, loading = false }) => {
   const [preview, setPreview] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [error, setError] = useState('');
+  const [showCamera, setShowCamera] = useState(false);
   const fileInputRef = useRef(null);
 
   const maxSize = (import.meta.env.VITE_MAX_FILE_SIZE || 16) * 1024 * 1024;
@@ -114,6 +116,14 @@ const UploadCard = ({ onUpload, loading = false }) => {
     }
   };
 
+  /**
+   * Handle camera capture
+   */
+  const handleCameraCapture = (file) => {
+    handleFile(file);
+    setShowCamera(false);
+  };
+
   return (
     <div className="card">
       <h2 className="text-2xl font-bold text-gray-800 mb-4">
@@ -139,14 +149,26 @@ const UploadCard = ({ onUpload, loading = false }) => {
               Drag & drop your image here
             </p>
             <p className="text-sm text-gray-500 mb-4">or</p>
-            <button
-              type="button"
-              onClick={() => fileInputRef.current?.click()}
-              className="btn-primary"
-              disabled={loading}
-            >
-              Choose File
-            </button>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                className="btn-primary flex items-center space-x-2"
+                disabled={loading}
+              >
+                <Upload className="w-5 h-5" />
+                <span>Choose File</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowCamera(true)}
+                className="btn-secondary flex items-center space-x-2"
+                disabled={loading}
+              >
+                <Camera className="w-5 h-5" />
+                <span>Take Photo</span>
+              </button>
+            </div>
             <input
               ref={fileInputRef}
               type="file"
@@ -229,6 +251,14 @@ const UploadCard = ({ onUpload, loading = false }) => {
           <li>• Recommended size: 224x224 pixels or larger</li>
         </ul>
       </div>
+
+      {/* Camera Capture Modal */}
+      {showCamera && (
+        <CameraCapture
+          onCapture={handleCameraCapture}
+          onClose={() => setShowCamera(false)}
+        />
+      )}
     </div>
   );
 };
