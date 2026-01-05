@@ -228,8 +228,13 @@ if __name__ == "__main__":
     print("JSON API health check:   http://127.0.0.1:5000/api/health")
     print("React frontend (dev):    http://localhost:5173/")
     print("=" * 60)
+
     print("\nRegistered routes:")
     for rule in app.url_map.iter_rules():
         print(f"  {rule.endpoint}: {rule.rule} {list(rule.methods)}")
     print("=" * 60)
-    app.run(debug=False, host='127.0.0.1', port=5000)
+
+    #  Render-compatible configuration:
+    #import os
+    port = int(os.environ.get("PORT", 5000))  # Render provides PORT automatically
+    app.run(debug=False, host='0.0.0.0', port=port)
