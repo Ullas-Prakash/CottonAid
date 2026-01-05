@@ -9,6 +9,7 @@ from disease_classifier.dataset_handler import DatasetHandler
 import numpy as np
 import os
 import glob
+import json
 
 # Initialize app
 app = Flask(__name__)
@@ -35,6 +36,19 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 # Load model + dataset handler
 model = load_model(MODEL_PATH)
 handler = DatasetHandler()
+
+# Load disease info (preventive measures & causing agents)
+DISEASE_INFO = {}
+try:
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    info_path = os.path.join(base_dir, 'data', 'disease_info.json')
+    if not os.path.exists(info_path):
+        info_path = os.path.join(os.getcwd(), 'data', 'disease_info.json')
+    if os.path.exists(info_path):
+        with open(info_path, 'r', encoding='utf-8') as f:
+            DISEASE_INFO = json.load(f)
+except Exception:
+    DISEASE_INFO = {}
 
 # ============================================================================
 # ORIGINAL ROUTES (unchanged - for backward compatibility)
@@ -144,13 +158,19 @@ def api_predict():
         from datetime import datetime
         # Generate full URL for the uploaded image
         image_url = f'http://127.0.0.1:5000/uploads/{image_file.filename}'
-        
+        # Attach preventive measures and causing agents when available
+        disease_entry = DISEASE_INFO.get(predicted_label, {})
+        preventive_measures = disease_entry.get('preventive_measures', [])
+        causing_agents = disease_entry.get('causing_agents', [])
+
         return jsonify({
             'success': True,
             'label': predicted_label,
             'confidence': confidence,
             'probabilities': probabilities,
             'image_url': image_url,
+            'preventive_measures': preventive_measures,
+            'causing_agents': causing_agents,
             'timestamp': datetime.now().isoformat()
         })
 

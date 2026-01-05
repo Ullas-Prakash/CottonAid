@@ -48,6 +48,8 @@ export const predictDiseaseJSON = async (file) => {
       confidence: data.confidence,
       probabilities: data.probabilities || [],
       imageUrl: data.image_url,
+      preventive_measures: data.preventive_measures || [],
+      causing_agents: data.causing_agents || [],
       timestamp: new Date().toISOString(),
     };
   } catch (error) {

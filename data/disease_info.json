@@ -1,0 +1,56 @@
+{
+  "Aphids": {
+    "preventive_measures": [
+      "Inspect plants regularly for colonies on new growth",
+      "Encourage natural predators (ladybugs, lacewings)",
+      "Avoid excess nitrogen fertilization which attracts aphids",
+      "Use insecticidal soaps or neem oil as a targeted control"
+    ],
+    "causing_agents": ["Aphids (various species)"]
+  },
+  "Army worm": {
+    "preventive_measures": [
+      "Monitor fields at dusk and dawn for feeding larvae",
+      "Maintain good field sanitation and remove crop residues",
+      "Use pheromone traps for early detection",
+      "Apply biological controls (Bacillus thuringiensis) when thresholds met"
+    ],
+    "causing_agents": ["Armyworm larvae (Spodoptera spp.)"]
+  },
+  "Bacterial Blight": {
+    "preventive_measures": [
+      "Use certified disease-free seed and resistant varieties",
+      "Avoid overhead irrigation during wet periods",
+      "Sanitize tools and avoid handling when plants are wet",
+      "Rotate crops and remove infected debris"
+    ],
+    "causing_agents": ["Xanthomonas citri pv. malvacearum"]
+  },
+  "Healthy": {
+    "preventive_measures": [
+      "Continue regular monitoring for pests and diseases",
+      "Maintain balanced nutrition and irrigation",
+      "Practice crop rotation and good sanitation",
+      "Encourage beneficial insects"
+    ],
+    "causing_agents": []
+  },
+  "Powdery Mildew": {
+    "preventive_measures": [
+      "Improve air circulation and reduce leaf wetness",
+      "Avoid excessive nitrogen fertilization",
+      "Apply sulfur or recommended fungicides at early signs",
+      "Remove and destroy heavily infected tissue"
+    ],
+    "causing_agents": ["Erysiphe cichoracearum (powdery mildew fungus)"]
+  },
+  "Target spot": {
+    "preventive_measures": [
+      "Remove infected debris and avoid overhead irrigation",
+      "Use resistant varieties if available",
+      "Apply appropriate fungicides following label instructions",
+      "Monitor after rainy periods for new infections"
+    ],
+    "causing_agents": ["Corynespora cassiicola"]
+  }
+}
