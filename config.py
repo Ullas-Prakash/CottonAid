@@ -1,31 +1,28 @@
-"""
-Configuration management for Cotton Disease Detection System
-"""
 import os
 
 class Config:
     # Model paths
-    ENHANCED_MODEL_PATH = "model/enhanced_cotton_disease_model.h5"
-    FALLBACK_MODEL_PATH = "model/DenseNet121.h5"
+    ENHANCED_MODEL_PATH = os.getenv("ENHANCED_MODEL_PATH", "model/enhanced_cotton_disease_model.h5")
+    FALLBACK_MODEL_PATH = os.getenv("FALLBACK_MODEL_PATH", "model/DenseNet121.h5")
     
     # Dataset configuration
-    KAGGLE_DATASET = "paridhijain02122001/cotton-crop-disease-detection"
-    DATASET_PATH = "dataset"
+    KAGGLE_DATASET = os.getenv("KAGGLE_DATASET", "paridhijain02122001/cotton-crop-disease-detection")
+    DATASET_PATH = os.getenv("DATASET_PATH", "dataset")
     
     # Image processing
     IMAGE_SIZE = (224, 224)
-    BATCH_SIZE = 32
+    BATCH_SIZE = int(os.getenv("BATCH_SIZE", 32))
     
     # Prediction settings
-    CONFIDENCE_THRESHOLD = 0.5
-    MAX_PREDICTION_TIME = 10  # seconds
+    CONFIDENCE_THRESHOLD = float(os.getenv("CONFIDENCE_THRESHOLD", 0.5))
+    MAX_PREDICTION_TIME = int(os.getenv("MAX_PREDICTION_TIME", 10))
     
     # Upload settings
-    UPLOAD_FOLDER = "uploads"
+    UPLOAD_FOLDER = os.getenv("UPLOAD_FOLDER", "uploads")
     ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
     MAX_FILE_SIZE = 16 * 1024 * 1024  # 16MB
     
-    # Disease classes (expanded)
+    # Disease classes (static list)
     DISEASE_CLASSES = [
         "Aphids",
         "Army_worm",
@@ -33,7 +30,6 @@ class Config:
         "Healthy",
         "Powdery_Mildew",
         "Target_spot"
-        
     ]
     
     @staticmethod
