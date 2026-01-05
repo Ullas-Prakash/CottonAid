@@ -11,6 +11,21 @@ import numpy as np
 import os
 import glob
 from datetime import datetime
+import json
+
+# Load disease information (preventive measures & causing agents)
+DISEASE_INFO = {}
+try:
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    info_path = os.path.join(base_dir, 'data', 'disease_info.json')
+    if not os.path.exists(info_path):
+        # try project root location
+        info_path = os.path.join(os.getcwd(), 'data', 'disease_info.json')
+    if os.path.exists(info_path):
+        with open(info_path, 'r', encoding='utf-8') as f:
+            DISEASE_INFO = json.load(f)
+except Exception:
+    DISEASE_INFO = {}
 
 # These will be initialized when added to app.py
 model = None
@@ -93,12 +108,19 @@ def api_predict():
             })
 
         # Return JSON response
+        # Attach preventive measures and causing agents when available
+        disease_entry = DISEASE_INFO.get(predicted_label, {})
+        preventive_measures = disease_entry.get('preventive_measures', [])
+        causing_agents = disease_entry.get('causing_agents', [])
+
         return jsonify({
             'success': True,
             'label': predicted_label,
             'confidence': confidence,
             'probabilities': probabilities,
             'image_url': url_for('send_uploaded_file', filename=image_file.filename, _external=True),
+            'preventive_measures': preventive_measures,
+            'causing_agents': causing_agents,
             'timestamp': datetime.now().isoformat()
         })
 
