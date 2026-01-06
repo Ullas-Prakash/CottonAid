@@ -13,7 +13,7 @@ __pycache__/
 
 # Large model files
 
-*.hdf5
+#*.hdf5
 
 # Environment or OS-specific files
 .DS_Store
