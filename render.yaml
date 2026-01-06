@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: CottonAid
+    env: python
+    pythonVersion: 3.10.13
+    buildCommand: "pip install --upgrade pip && pip install -r requirements.txt"
+    startCommand: "gunicorn app_with_api:app"
