@@ -8,7 +8,7 @@ const USE_JSON_API = import.meta.env.VITE_USE_JSON_API === 'true';
 
 /**
  * Check if JSON API endpoint is available
- */
+ */   
 export const checkJsonApiAvailable = async () => {
   try {
     const response = await fetch(`${API_BASE_URL}/api/health`, {
