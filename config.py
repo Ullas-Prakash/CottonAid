@@ -2,8 +2,8 @@ import os
 
 class Config:
     # Model paths
-    ENHANCED_MODEL_PATH = os.getenv("ENHANCED_MODEL_PATH", "model/enhanced_cotton_disease_model.h5")
-    FALLBACK_MODEL_PATH = os.getenv("FALLBACK_MODEL_PATH", "model/DenseNet121.h5")
+    ENHANCED_MODEL_PATH = os.getenv("ENHANCED_MODEL_PATH", "frontend/model/enhanced_cotton_disease_model.h5")
+    FALLBACK_MODEL_PATH = os.getenv("FALLBACK_MODEL_PATH", "frontend/model/DenseNet121.h5")
     
     # Dataset configuration
     KAGGLE_DATASET = os.getenv("KAGGLE_DATASET", "paridhijain02122001/cotton-crop-disease-detection")
