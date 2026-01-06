@@ -36,8 +36,7 @@ env/
 # ===== Machine Learning Artifacts =====
 dataset/
 uploads/
-*.h5
-*.hdf5
+
 *.keras
 *.ckpt
 *.npz
